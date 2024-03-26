@@ -1,0 +1,9 @@
+backbase:
+  payments:
+    limits:
+      enabled: false
+    types:
+      INTERNATIONAL:
+        business-function: SEPA CT
+      SEPA_CREDIT_TRANSFER:
+        business-function: SEPA CT

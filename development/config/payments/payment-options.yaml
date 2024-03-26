@@ -1,0 +1,37 @@
+backbase:
+  payments:
+    international-payment-option-types-settings:
+      types:
+        - payment-type: SEPA_CREDIT_TRANSFER
+          business-functions:
+            - "SEPA CT"
+          business-function-payment-type:
+            SEPA_CREDIT_TRANSFER: "SEPA CT"
+          options:
+            - instruction-priority: NORM
+              transfer-fee:
+                amount: 0
+                currency-code: EUR
+              execution-time-frame:
+                unit: BUSINESS_DAY
+                max: 1
+                min: 0
+              cut-off-time: "17:00"
+          rules:
+            - "counterparty-country-is-sepa"
+        - payment-type: INTERNATIONAL
+          business-functions:
+            - "SEPA CT"
+          business-function-payment-type:
+            SEPA_CREDIT_TRANSFER: "SEPA CT"
+          options:
+            - instruction-priority: NORM
+              transfer-fee:
+                amount: 0
+                currency-code: EUR
+              execution-time-frame:
+                unit: BUSINESS_DAY
+                max: 2
+                min: 0
+          rules:
+            - "!counterparty-country-is-sepa"

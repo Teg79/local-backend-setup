@@ -104,6 +104,21 @@ bootstrap:
         functionGroups:
           - name: "Products and Profile"
             functions:
+              - functionId: "1130"
+                name: "Manage Business Functions"
+                privileges:
+                  - privilege: "view"
+              - functionId: "1020"
+                name: "Manage Function Groups"
+                privileges:
+                  - privilege: "view"
+              - functionId: "1019"
+                name: "Manage Data Groups"
+                privileges:
+                  - privilege: "view"
+                  - privilege: "create"
+                  - privilege: "edit"
+                  - privilege: "delete"
               - functionId: "1006"
                 name: "Product Summary"
                 functionCode: "product.summary"
@@ -116,6 +131,15 @@ bootstrap:
                 privileges:
                   - privilege: "view"
                   - privilege: "edit"
+              - functionId: "1002"
+                name: "SEPA CT"
+                privileges:
+                  - privilege: "view"
+                  - privilege: "create"
+                  - privilege: "edit"
+                  - privilege: "approve"
+                  - privilege: "cancel"
+                  - privilege: "delete"
     users:
       - user:
           externalId: "admin"

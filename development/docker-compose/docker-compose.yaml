@@ -250,8 +250,10 @@ services:
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/payment-order-service?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.config.additional-location: file:/tmp/application-rules.yaml
     volumes:
       - ./scripts:/tmp/h
+      - ../config/payments/application-rules.yaml:/tmp/application-rules.yaml
     healthcheck:
       <<: *healthcheck-defaults
       test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-service", "<status>UP</status>" ]
@@ -262,8 +264,12 @@ services:
     image: repo.backbase.com/backbase-docker-releases/payment-order-options:${BB_VERSION}
     environment:
       <<: [*common-variables, *message-broker-variables]
+      backbase.payments.types.location: file:/tmp/payment-options.yaml
+      backbase.payment-options.rules.location: file:/tmp/payment-options-rules.yaml
     volumes:
       - ./scripts:/tmp/h
+      - ../config/payments/payment-options.yaml:/tmp/payment-options.yaml
+      - ../config/payments/payment-options-rules.yaml:/tmp/payment-options-rules.yaml
     healthcheck:
       <<: *healthcheck-defaults
       test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-options", "<status>UP</status>" ]

@@ -1,0 +1,11 @@
+backbase:
+  payment-options:
+    international-payment-option-rules-settings:
+      rules:
+        - name: counterparty-country-is-sepa
+          type: in
+          attribute: counterpartyCountry
+          values:
+            - "IT"
+            - "FR"
+            - "NL"
