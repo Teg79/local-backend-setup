@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "7ba8e217-3365-4363-84ed-9fe8eced5d40",
+		"_postman_id": "86936ab4-a177-4b19-b2d2-6024408e7259",
 		"name": "Smoke Test Local Backend Environment",
 		"description": "Specs for Message Service API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31434885"
 	},
 	"item": [
 		{
@@ -230,6 +231,380 @@
 			]
 		},
 		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"XSRF Token Cookie returned\", function () {",
+									"    var cookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+									"    pm.expect(cookie).to.be.not.null;",
+									"    if (cookie && cookie.value) {",
+									"        postman.setGlobalVariable(\"X-CSRF-TOKEN\", cookie.value);",
+									"    }",
+									"});",
+									"",
+									"//for auth read cookie",
+									"var authCookie = postman.getResponseCookie(\"AuthToken\");",
+									"if (authCookie && authCookie.value) {",
+									"  postman.setGlobalVariable(\"authToken\", authCookie.value);",
+									"}",
+									"",
+									"//for identity read json",
+									"if (responseBody) {",
+									"  var jsonData = JSON.parse(responseBody);",
+									"  postman.setGlobalVariable(\"authToken\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//clear Auth and CSRF",
+									"postman.setGlobalVariable(\"authToken\"); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4="
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "bb-tooling-client",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identityUrl}}/auth/realms/backbase/protocol/openid-connect/token",
+							"host": [
+								"{{identityUrl}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"backbase",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login sara",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"XSRF Token Cookie returned\", function () {",
+									"    var cookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+									"    pm.expect(cookie).to.be.not.null;",
+									"    if (cookie && cookie.value) {",
+									"        postman.setGlobalVariable(\"X-CSRF-TOKEN\", cookie.value);",
+									"    }",
+									"});",
+									"",
+									"//for auth read cookie",
+									"var authCookie = postman.getResponseCookie(\"AuthToken\");",
+									"if (authCookie && authCookie.value) {",
+									"  postman.setGlobalVariable(\"authToken\", authCookie.value);",
+									"}",
+									"",
+									"//for identity read json",
+									"if (responseBody) {",
+									"  var jsonData = JSON.parse(responseBody);",
+									"  postman.setGlobalVariable(\"authToken\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//clear Auth and CSRF",
+									"postman.setGlobalVariable(\"authToken\"); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4="
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "sara",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "sara",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "bb-tooling-client",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{identityUrl}}/auth/realms/backbase/protocol/openid-connect/token",
+							"host": [
+								"{{identityUrl}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"backbase",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Context Service Agreements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"MSA_ID\", jsonData[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/user-context/service-agreements",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"access-control",
+								"client-api",
+								"v3",
+								"accessgroups",
+								"user-context",
+								"service-agreements"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Set User Context Service Agreements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 204\", function() {",
+									"  pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serviceAgreementId\": \"{{MSA_ID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/user-context",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"access-control",
+								"client-api",
+								"v3",
+								"accessgroups",
+								"user-context"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Arrangement Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"ARR_ID\", jsonData[0].items[0]);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/data-groups?serviceAgreementId={{MSA_ID}}&type=ARRANGEMENTS",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"access-control",
+								"client-api",
+								"v3",
+								"accessgroups",
+								"data-groups"
+							],
+							"query": [
+								{
+									"key": "serviceAgreementId",
+									"value": "{{MSA_ID}}"
+								},
+								{
+									"key": "type",
+									"value": "ARRANGEMENTS"
+								}
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "access-control",
 			"item": [
 				{
@@ -340,72 +715,6 @@
 					]
 				},
 				{
-					"name": "User Accessgroups",
-					"item": [
-						{
-							"name": "Get User Permissions SUmmary",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Response status is 200\", function() {",
-											"  pm.response.to.have.status(200);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"name\": \"Function group\",\n  \"description\": \"Some description for Function group\",\n  \"serviceAgreementId\": \"0889e686d31e4216b3dd5d66163d2b14\",\n  \"approvalTypeId\": \"eb00b7da-e360-483a-b383-0591ea9de464\",\n  \"permissions\": [\n    {\n      \"functionId\": \"1\",\n      \"assignedPrivileges\": [\n        {\n          \"privilege\": \"view\"\n        },\n        {\n          \"privilege\": \"execute\"\n        }\n      ]\n    },\n    {\n      \"functionId\": \"2\",\n      \"assignedPrivileges\": [\n        {\n          \"privilege\": \"view\"\n        }\n      ]\n    }\n  ],\n  \"validFromDate\": \"2017-03-31\",\n  \"validFromTime\": \"07:48:23\",\n  \"validUntilDate\": \"2020-03-31\",\n  \"validUntilTime\": \"07:48:23\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/users/permissions/summary",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"access-control",
-										"client-api",
-										"v3",
-										"accessgroups",
-										"users",
-										"permissions",
-										"summary"
-									]
-								},
-								"description": "Returns current user's service agreements"
-							},
-							"response": []
-						}
-					]
-				},
-				{
 					"name": "User Context Agreements",
 					"item": [
 						{
@@ -459,6 +768,55 @@
 							"response": []
 						},
 						{
+							"name": "Get User Permissions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/users/permissions/summary",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"users",
+										"permissions",
+										"summary"
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						},
+						{
 							"name": "Set User Context Service Agreements",
 							"event": [
 								{
@@ -496,7 +854,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/access-control/client-api/v2/accessgroups/usercontext",
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/user-context",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -504,9 +862,286 @@
 										"api",
 										"access-control",
 										"client-api",
-										"v2",
+										"v3",
 										"accessgroups",
-										"usercontext"
+										"user-context"
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User Context Service Agreements",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 204\", function() {",
+											"  pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/user-context",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"user-context"
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Business Functions",
+					"item": [
+						{
+							"name": "Get All Business Functions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/business-functions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"business-functions"
+									],
+									"query": [
+										{
+											"key": "privileges",
+											"value": "view,create,edit",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Business Functions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/service-agreements/{{MSA_ID}}/business-functions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"service-agreements",
+										"{{MSA_ID}}",
+										"business-functions"
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Function Groups",
+					"item": [
+						{
+							"name": "Get Function Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/function-groups?serviceAgreementId={{MSA_ID}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"function-groups"
+									],
+									"query": [
+										{
+											"key": "serviceAgreementId",
+											"value": "{{MSA_ID}}"
+										}
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Data Groups",
+					"item": [
+						{
+							"name": "Get Data Groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setGlobalVariable(\"ARR_ID\", jsonData[0].items[0]);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/access-control/client-api/v3/accessgroups/data-groups?serviceAgreementId={{MSA_ID}}&type=ARRANGEMENTS",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"access-control",
+										"client-api",
+										"v3",
+										"accessgroups",
+										"data-groups"
+									],
+									"query": [
+										{
+											"key": "serviceAgreementId",
+											"value": "{{MSA_ID}}"
+										},
+										{
+											"key": "type",
+											"value": "ARRANGEMENTS"
+										}
 									]
 								},
 								"description": "Returns current user's service agreements"
@@ -675,6 +1310,54 @@
 					"response": []
 				},
 				{
+					"name": "Get Arrangement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/arrangement-manager/client-api/v2/arrangements/11beb27e-56f3-4c6b-a335-d1c31e9097be",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"arrangement-manager",
+								"client-api",
+								"v2",
+								"arrangements",
+								"11beb27e-56f3-4c6b-a335-d1c31e9097be"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
 					"name": "Get Product Kinds",
 					"event": [
 						{
@@ -714,6 +1397,863 @@
 								"client-api",
 								"v2",
 								"product-kinds"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "contact-manager",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login sara",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"XSRF Token Cookie returned\", function () {",
+											"    var cookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+											"    pm.expect(cookie).to.be.not.null;",
+											"    if (cookie && cookie.value) {",
+											"        postman.setGlobalVariable(\"X-CSRF-TOKEN\", cookie.value);",
+											"    }",
+											"});",
+											"",
+											"//for auth read cookie",
+											"var authCookie = postman.getResponseCookie(\"AuthToken\");",
+											"if (authCookie && authCookie.value) {",
+											"  postman.setGlobalVariable(\"authToken\", authCookie.value);",
+											"}",
+											"",
+											"//for identity read json",
+											"if (responseBody) {",
+											"  var jsonData = JSON.parse(responseBody);",
+											"  postman.setGlobalVariable(\"authToken\", jsonData.access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//clear Auth and CSRF",
+											"postman.setGlobalVariable(\"authToken\"); "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic YWRtaW46YWRtaW4="
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "sara",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "sara",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "bb-tooling-client",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{identityUrl}}/auth/realms/backbase/protocol/openid-connect/token",
+									"host": [
+										"{{identityUrl}}"
+									],
+									"path": [
+										"auth",
+										"realms",
+										"backbase",
+										"protocol",
+										"openid-connect",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/contact-manager/client-api/v2/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact-manager",
+								"client-api",
+								"v2",
+								"contacts"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contacts Fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/contact-manager/client-api/v2/configurations/countries/BH/accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact-manager",
+								"client-api",
+								"v2",
+								"configurations",
+								"countries",
+								"BH",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "2c9380878e0dfac4018e0dfd35690001",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contacts admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/contact-manager/service-api/v2/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact-manager",
+								"service-api",
+								"v2",
+								"contacts"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Charbel Doe\",\n  \"alias\": \"Frank\",\n  \"category\": \"Employee\",\n  \"country\": \"IT\",\n  \"accounts\": [\n    {\n      \"name\": \"Saving account\",\n      \"alias\": \"Savings\",\n      \"IBAN\": \"FI21 1234 5600 0007 85\",\n      \"bankCountry\": \"NL\"\n    }\n  ],\n    \"additions\":\n    {\n        \"custom-text\": \"custom text field\",\n        \"custom-number\": \"1\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/contact-manager/client-api/v2/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact-manager",
+								"client-api",
+								"v2",
+								"contacts"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Contact Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jes Doe\",\n  \"accounts\": [\n    {\n        \"accountNumber\": \"FI21 12345600000781\",\n      \"IBAN\": \"FI21 1234 5600 0007 85\",\n      \"phoneNumber\": \"03011786\",\n      \"email\": \"test@example.com\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/contact-manager/client-api/v2/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"contact-manager",
+								"client-api",
+								"v2",
+								"contacts"
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment-order-service",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login sara",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"XSRF Token Cookie returned\", function () {",
+											"    var cookie = postman.getResponseCookie(\"XSRF-TOKEN\");",
+											"    pm.expect(cookie).to.be.not.null;",
+											"    if (cookie && cookie.value) {",
+											"        postman.setGlobalVariable(\"X-CSRF-TOKEN\", cookie.value);",
+											"    }",
+											"});",
+											"",
+											"//for auth read cookie",
+											"var authCookie = postman.getResponseCookie(\"AuthToken\");",
+											"if (authCookie && authCookie.value) {",
+											"  postman.setGlobalVariable(\"authToken\", authCookie.value);",
+											"}",
+											"",
+											"//for identity read json",
+											"if (responseBody) {",
+											"  var jsonData = JSON.parse(responseBody);",
+											"  postman.setGlobalVariable(\"authToken\", jsonData.access_token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//clear Auth and CSRF",
+											"postman.setGlobalVariable(\"authToken\"); "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic YWRtaW46YWRtaW4="
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "sara",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "sara",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "bb-tooling-client",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{identityUrl}}/auth/realms/backbase/protocol/openid-connect/token",
+									"host": [
+										"{{identityUrl}}"
+									],
+									"path": [
+										"auth",
+										"realms",
+										"backbase",
+										"protocol",
+										"openid-connect",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "options",
+					"item": [
+						{
+							"name": "Get Payment Types",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"originatorAccount\": {\n    \"identification\": \"{{ARR_ID}}\",\n    \"schemeName\": \"ID\"\n  },\n  \"counterpartyAccount\": {\n    \"identification\": \"NL21ABNA0136371124\",\n    \"schemeName\": \"IBAN\"\n  },\n    \"instructedAmount\": {\n        \"amount\": \"100.29\",\n        \"currencyCode\": \"EUR\"\n  },\n  \"counterpartyCountry\": \"NL\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/payment-order-options/client-api/v1/payment-options",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"payment-order-options",
+										"client-api",
+										"v1",
+										"payment-options"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "2c9380878e0dfac4018e0dfd35690001",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Payment Type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status is 200\", function() {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/payment-order-options/client-api/v1/payment-options/INTERNATIONAL",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"payment-order-options",
+										"client-api",
+										"v1",
+										"payment-options",
+										"INTERNATIONAL"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "2c9380878e0dfac4018e0dfd35690001",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Returns current user's service agreements"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validate Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"PO_ID\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"originatorAccount\": {\n        \"identification\": {\n            \"identification\": \"{{ARR_ID}}\",\n            \"schemeName\": \"ID\"\n        }\n    },\n    \"requestedExecutionDate\": \"2025-02-06\",\n    \"paymentType\": \"INTERNATIONAL\",\n    \"transferTransactionInformation\": {\n        \"instructedAmount\": {\n            \"amount\": \"1000.00\",\n            \"currencyCode\": \"EUR\"\n        },\n        \"counterparty\": {\n            \"name\": \"J. Sparrow\"\n        },\n        \"counterpartyAccount\": {\n            \"identification\": {\n                \"identification\": \"NL21ABNA0136371124\",\n                \"schemeName\": \"IBAN\"\n            }\n        },\n        \"counterpartyCountry\": \"NL\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/payment-order-service/client-api/v3/payment-orders/validate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-order-service",
+								"client-api",
+								"v3",
+								"payment-orders",
+								"validate"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "2c9380878e0dfac4018e0dfd35690001",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{PO_ID}}\",\n    \"originatorAccount\": {\n        \"identification\": {\n            \"identification\": \"{{ARR_ID}}\",\n            \"schemeName\": \"ID\"\n        }\n    },\n    \"requestedExecutionDate\": \"2025-02-06\",\n    \"paymentType\": \"INTERNATIONAL\",\n    \"transferTransactionInformation\": {\n        \"instructedAmount\": {\n            \"amount\": \"1000.00\",\n            \"currencyCode\": \"EUR\"\n        },\n        \"counterparty\": {\n            \"name\": \"J. Sparrow\"\n        },\n        \"counterpartyAccount\": {\n            \"identification\": {\n                \"identification\": \"NL21ABNA0136371124\",\n                \"schemeName\": \"IBAN\"\n            },\n            \"selectedContact\": {\n                \"contactId\": \"14b0b245-c7a9-427e-8e77-26c2f98dfa3d\",\n                \"accountId\": \"61425aed-5d5c-4292-8f60-e2f3efc9b66a\"\n            }\n        },\n        \"counterpartyBank\": {\n            \"bic\": \"BICXXXAA000\",\n            \"postalAddress\": {\n                \"city\": \"Amsterdam\"\n            }\n        },\n        \"counterpartyCountry\": \"NL\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/payment-order-service/client-api/v3/payment-orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-order-service",
+								"client-api",
+								"v3",
+								"payment-orders"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "2c9380878e0dfac4018e0dfd35690001",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/payment-order-service/client-api/v3/payment-orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-order-service",
+								"client-api",
+								"v3",
+								"payment-orders"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "2c9380878e0dfac4018e0dfd35690001",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns current user's service agreements"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "iam",
+			"item": [
+				{
+					"name": "Get Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 200\", function() {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"MSA_ID\", jsonData[0].id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/access-control/client-api/iam/v2/users/me/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"access-control",
+								"client-api",
+								"iam",
+								"v2",
+								"users",
+								"me",
+								"profile"
 							]
 						},
 						"description": "Returns current user's service agreements"
